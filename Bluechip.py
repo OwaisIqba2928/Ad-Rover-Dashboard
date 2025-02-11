@@ -378,53 +378,72 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 import pandas as pd
 import streamlit as st
 import plotly.express as px
 
+# Sample data (Replace 'filtered_data' with your actual DataFrame)
+# filtered_data = pd.read_csv("your_data.csv")  # Ensure you have data loaded
+
 # Define Age Groups for Clear Segmentation
 age_bins = [10, 20, 30, 40, 50, 60, 70, 80, 100]
 age_labels = ['10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80+']
-filtered_data['age_group'] = pd.cut(filtered_data['age'], bins=age_bins, labels=age_labels, right=False)
-age_count = filtered_data['age_group'].value_counts().reset_index()
-age_count.columns = ['Age Group', 'Count']
 
-# 📊 Stunning Age Distribution Bar Chart
-fig_age_bar = px.bar(
-    age_count, x='Age Group', y='Count', text='Count',
-    color='Age Group', color_discrete_sequence=px.colors.qualitative.Vivid  # Vibrant colors
-)
+# Ensure 'filtered_data' exists before applying operations
+if 'age' in filtered_data.columns:
+    filtered_data['age_group'] = pd.cut(
+        filtered_data['age'], bins=age_bins, labels=age_labels, right=False
+    )
 
-fig_age_bar.update_traces(
-    textposition='outside',
-    marker=dict(line=dict(color='black', width=1))  # Enhanced contrast
-)
+    # Get counts and ensure correct order
+    age_count = filtered_data['age_group'].value_counts().reindex(age_labels, fill_value=0).reset_index()
+    age_count.columns = ['Age Group', 'Count']
 
-# 🎨 Beautiful Background & Professional Styling
-fig_age_bar.update_layout(
-    title="📈 Age Group Distribution",
-    xaxis=dict(
-        title="👶 Age Group 🧓",
-        tickmode="linear",
-        tickfont=dict(size=16, color="white")
-    ),
-    yaxis=dict(
-        title="📊 Number of People",
-        tickfont=dict(size=16, color="white")
-    ),
-    font=dict(size=18, color="white"),
-    showlegend=False,
-    height=500,
-    paper_bgcolor="#1A2B4C",  # Attractive dark blue gradient background
-    plot_bgcolor="#1A2B4C",  # Same background for seamless look
-    margin=dict(t=10, b=10, l=10, r=10)
-)
+    # 📊 Stunning Age Distribution Bar Chart
+    fig_age_bar = px.bar(
+        age_count, x='Age Group', y='Count', text='Count',
+        color='Age Group', category_orders={"Age Group": age_labels},  # ✅ Ensure correct order
+        color_discrete_sequence=px.colors.qualitative.Vivid  # Vibrant colors
+    )
 
-# 🖼️ Elegant Chart Container with Matching Theme
-st.markdown("<div class='chart-container' style='background: linear-gradient(135deg, #1A2B4C, #2C3E50); padding: 15px; border-radius: 15px;'>", unsafe_allow_html=True)
-st.plotly_chart(fig_age_bar, use_container_width=True)
-st.markdown("</div>", unsafe_allow_html=True)
+    fig_age_bar.update_traces(
+        textposition='outside',
+        marker=dict(line=dict(color='black', width=1))  # Enhanced contrast
+    )
+
+    # 🎨 Beautiful Background & Professional Styling
+    fig_age_bar.update_layout(
+        title="📈 Age Group Distribution",
+        xaxis=dict(
+            title="👶 Age Group 🧓",
+            tickmode="array",
+            tickvals=list(range(len(age_labels))),  # Ensure labels align correctly
+            ticktext=age_labels,
+            tickfont=dict(size=16, color="white")
+        ),
+        yaxis=dict(
+            title="📊 Number of People",
+            tickfont=dict(size=16, color="white")
+        ),
+        font=dict(size=18, color="white"),
+        showlegend=False,
+        height=500,
+        paper_bgcolor="#1A2B4C",  # Attractive dark blue gradient background
+        plot_bgcolor="#1A2B4C",  # Same background for seamless look
+        margin=dict(t=10, b=10, l=10, r=10)
+    )
+
+    # 🖼️ Elegant Chart Container with Matching Theme
+    st.markdown(
+        "<div class='chart-container' style='background: linear-gradient(135deg, #1A2B4C, #2C3E50); padding: 15px; border-radius: 15px;'>",
+        unsafe_allow_html=True
+    )
+    st.plotly_chart(fig_age_bar, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+else:
+    st.error("Column 'age' not found in the dataset. Please check your input data.")
+
 
 
 
