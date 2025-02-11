@@ -4,7 +4,7 @@ import plotly.express as px
 from datetime import datetime, timedelta
 
 # Load Data
-file_path = r"C:\Users\Asus\Music\CodeWithEhtisham\AddRover-pipeline\streamlit-ad-dashboard\cleaned_data.csv"
+file_path = r"cleaned_data.csv"
 data = pd.read_csv(file_path)
 
 # Data Preparation
