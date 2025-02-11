@@ -4,7 +4,7 @@ import plotly.express as px
 from datetime import datetime, timedelta
 
 # Load Data
-file_path = r"cleaned_data.csv"
+file_path = r"C:\Users\Asus\Music\CodeWithEhtisham\AddRover-pipeline\streamlit-ad-dashboard\cleaned_data.csv"
 data = pd.read_csv(file_path)
 
 # Data Preparation
@@ -16,7 +16,7 @@ data['month'] = data['time'].dt.month_name()
 # Streamlit Page Configuration
 st.set_page_config(page_title="📊 Ad Rover Analytics Dashboard", page_icon="📊", layout="wide")
 
-# Custom CSS for Enhanced Styling and Background
+# Custom CSS for Enhanced Styling and Responsiveness
 st.markdown(
     """
     <style>
@@ -47,16 +47,17 @@ st.markdown(
         }
     }
 
+    /* Responsive Title Bar */
     .title-bar {
         background: linear-gradient(90deg, #ff8c00, #ff0080);
-        padding: 24px;
+        padding: 20px;
         border-radius: 14px;
         text-align: center;
         color: white;
-        font-size: 36px;
+        font-size: 28px;
         font-weight: bold;
         box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         animation: glow 2s infinite alternate;
     }
 
@@ -68,25 +69,27 @@ st.markdown(
             box-shadow: 0px 0px 40px rgba(255, 0, 128, 0.7);
         }
     }
-    
+
+    /* Responsive KPI Cards */
     .kpi-container {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
-        margin: 30px 0;
+        gap: 10px;
+        margin: 20px 0;
     }
-    
+
     .kpi-card {
-        flex: 1;
+        flex: 1 1 calc(25% - 20px);
         background: #22264b;
-        padding: 24px;
+        padding: 20px;
         border-radius: 14px;
         box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15);
         text-align: center;
-        font-size: 22px;
+        font-size: 18px;
         font-weight: bold;
         color: #ffffff;
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        margin: 10px;
         position: relative;
         overflow: hidden;
     }
@@ -118,29 +121,17 @@ st.markdown(
         position: relative;
         z-index: 2;
     }
-    
-    .chart-title {
-        font-size: 22px;
-        font-weight: bold;
-        color: white;
-        text-align: center;
-        padding: 12px;
-        background: #22264b;
-        border-radius: 12px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-        margin-bottom: 24px;
-        animation: glow 2s infinite alternate;
-    }
 
+    /* Responsive Sidebar */
     .sidebar-box {
         background: linear-gradient(135deg, #8a2be2, #ff1493);
-        padding: 20px;
+        padding: 15px;
         border-radius: 12px;
         color: white;
         font-weight: bold;
         text-align: center;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
 
@@ -149,63 +140,62 @@ st.markdown(
         box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
     }
 
-    /* Sidebar Background */
-    .css-1d391kg {
-        background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460, #1a1a2e);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-    }
-
-    .css-1d391kg .st-bb {
-        color: white;
-    }
-
-    .css-1d391kg .st-cb {
-        color: white;
-    }
-
-    .css-1d391kg .st-db {
-        color: white;
-    }
-
-    /* Modern Navbar */
-    .navbar {
-        background: linear-gradient(90deg, #ff8c00, #ff0080);
-        padding: 16px;
-        border-radius: 15px;
-        text-align: center;
-        color: white;
-        font-size: 24px;
-        font-weight: bold;
-        width: 60%;
-        margin: 25px auto;
-        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    /* Responsive Charts */
+    .chart-container {
+        background: linear-gradient(135deg, #1A2B4C, #2C3E50);
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
         transition: all 0.3s ease-in-out;
-        animation: glow 2s infinite alternate;
-    }
-    
-    .navbar:hover {
-        transform: scale(1.03);
-        box-shadow: 0px 8px 22px rgba(0, 0, 0, 0.4);
-    }
-    
-    .navbar img {
-        width: 30px;
-        height: 30px;
-        margin-right: 10px;
-        filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
+        margin-bottom: 20px;
     }
 
-    /* Glowing Animation */
-    @keyframes glow {
-        0% {
-            box-shadow: 0px 0px 20px rgba(255, 140, 0, 0.7);
+    .chart-container:hover {
+        transform: scale(1.02);
+    }
+
+    /* Media Queries for Mobile and Tablet */
+    @media (max-width: 768px) {
+        .title-bar {
+            font-size: 24px;
+            padding: 15px;
         }
-        100% {
-            box-shadow: 0px 0px 40px rgba(255, 0, 128, 0.7);
+
+        .kpi-card {
+            flex: 1 1 calc(50% - 10px);
+            font-size: 16px;
+            padding: 15px;
+        }
+
+        .sidebar-box {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .chart-container {
+            padding: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .title-bar {
+            font-size: 20px;
+            padding: 10px;
+        }
+
+        .kpi-card {
+            flex: 1 1 100%;
+            font-size: 14px;
+            padding: 10px;
+        }
+
+        .sidebar-box {
+            padding: 8px;
+            font-size: 12px;
+        }
+
+        .chart-container {
+            padding: 8px;
         }
     }
     </style>
@@ -259,591 +249,451 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ✨ Beautiful & Modern Navbar
+
+import streamlit as st
+
 st.markdown(
     """
-    <div class="navbar">
-        <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png">
-        Gender Distribution of Users
-    </div>
+    <style>
+    /* 🚀 Elegant and Shaded Navigation Bar with Image-Based Colors */
+    .navbar {
+        background: linear-gradient(45deg, rgb(255, 129, 10), rgb(255, 128, 11)); /* 🎨 Image-Inspired Gradient */
+        padding: 12px 25px;
+        border-radius: 8px; /* ✅ Slightly Rounded */
+        text-align: center;
+        color: white;
+        font-size: 22px;
+        font-weight: bold;
+        font-family: 'Arial', sans-serif;
+        letter-spacing: 1px;
+        width: 60%; /* ✅ Slimmer & Compact */
+        margin: auto;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* ✅ Soft Shadow */
+        backdrop-filter: blur(10px); /* ✅ Modern Blur Effect */
+        border: 4px solid rgb(255, 221, 51); /* ✨ Stylish Yellow Border */
+        background-clip: padding-box; /* Ensures border color doesn't get overridden by background */
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* ✨ Hover Effect */
+    .navbar:hover {
+        background: linear-gradient(45deg, rgb(240, 110, 5), rgb(220, 100, 5)); /* 🔥 Slightly Darker on Hover */
+        transform: scale(1.03);
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.5);
+        border-color: rgb(255, 200, 0); /* 🎨 Slightly Darker Yellow on Hover */
+    }
+
+    </style>
+
+    <!-- 🔥 Stylish and Image-Based Navigation Bar -->
+    <div class="navbar">🧑‍🤝‍🧑📊 Gender Distribution Analysis 📈⚖️</div>
     """,
     unsafe_allow_html=True
 )
 
-import plotly.express as px
-import streamlit as st
-
-import plotly.express as px
-import streamlit as st
-
-import pandas as pd
-import streamlit as st
-import plotly.express as px
-import pandas as pd
-import streamlit as st
-import plotly.express as px
-
-import pandas as pd
-import streamlit as st
-import plotly.express as px
-
-# 📊 Gender Distribution Pie Chart (Mesmerizing & Professional)
-gender_icons = {"Male": "👨", "Female": "👩", "Other": "⚧"}  # Icons for clarity
+# Gender Distribution Pie Chart
+gender_icons = {"Male": "👨", "Female": "👩", "Other": "⚧"}
 gender_count = filtered_data['gender'].value_counts().reset_index()
 gender_count.columns = ['Gender', 'Count']
-gender_count['Count'] = gender_count['Count'].astype(int)  # Ensure integer values
-gender_count['Label'] = gender_count.apply(lambda row: f"{gender_icons.get(row['Gender'], '❓')} {row['Gender']} ({row['Count']})", axis=1)
+
+# Remove "?" and replace unknown genders with "Other"
+gender_count['Gender'] = gender_count['Gender'].replace("?", "Other")
+
+# Create labels with icons
+gender_count['Label'] = gender_count.apply(
+    lambda row: f"{gender_icons.get(row['Gender'], '⚧')} {row['Gender']} ({row['Count']})", axis=1
+)
+
+# Professional and Attractive Color Palette
+color_palette = ['#FF6B6B', '#4ECDC4', '#FFD700']
 
 fig_gender_pie = px.pie(
     gender_count, names="Label", values="Count", color="Gender",
-    color_discrete_sequence=['#FF6B6B', '#4ECDC4', '#FFD700'],  # Modern & premium colors
-    hole=0.25  # Elegant donut effect
+    color_discrete_sequence=color_palette,
+    hole=0.25
 )
 
 fig_gender_pie.update_traces(
     textinfo='label+percent',
-    texttemplate="%{label}: %{percent:.0%}",  # Displays absolute values & percentage
-    pull=[0.1 if i == gender_count['Count'].idxmax() else 0.05 for i in range(len(gender_count))],  # Highlight the highest value
-    marker=dict(line=dict(color='black', width=2)),  # Improved contrast
-    hoverinfo="label+percent+value",  # Show absolute values on hover
+    texttemplate="%{label}: %{percent:.0%}",
+    pull=[0.1 if i == gender_count['Count'].idxmax() else 0.05 for i in range(len(gender_count))],
+    marker=dict(line=dict(color='black', width=2)),
+    hoverinfo="label+percent+value",
 )
 
-# 🎨 Polished Chart Design
 fig_gender_pie.update_layout(
-    font=dict(size=18, color="white"),  # Improved readability
+    font=dict(size=16, color="white"),
     showlegend=True,
-    height=500,
-    paper_bgcolor="#1A2B4C",  # Consistent background
-    plot_bgcolor="#1A2B4C",  
-    margin=dict(t=10, b=10, l=10, r=10),  # Optimal spacing
-    legend=dict(title="🧑‍🤝‍🧑 Gender", font=dict(size=16, color="white"))  # Professional legend design
+    height=400,
+    paper_bgcolor="#1A2B4C",
+    plot_bgcolor="#1A2B4C",
+    margin=dict(t=10, b=10, l=10, r=10),
+    legend=dict(title="🧑‍🤝‍🧑 Gender", font=dict(size=14, color="white"))
 )
 
-# ✨ Stylish Chart Container
-st.markdown(
-    """
-    <style>
-    .chart-container {
-        background: linear-gradient(135deg, #1A2B4C, #2C3E50);
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease-in-out;
-        border: 2px solid #FFD700;
-    }
-    .chart-container:hover {
-        transform: scale(1.02);
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# 🖼️ Display the Chart
 st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
 st.plotly_chart(fig_gender_pie, use_container_width=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
 
+import streamlit as st
 
-
-# 🌟 Attractive Navigation Bar
 st.markdown(
     """
     <style>
+    /* 🚀 Elegant and Shaded Navigation Bar with Image-Based Colors */
     .navbar {
-        background: linear-gradient(90deg, #ff416c, #ff4b2b);
-        padding: 16px;
-        border-radius: 15px;
+        background: linear-gradient(45deg, rgb(255, 129, 10), rgb(255, 128, 11)); /* 🎨 Image-Inspired Gradient */
+        padding: 12px 25px;
+        border-radius: 8px; /* ✅ Slightly Rounded */
         text-align: center;
         color: white;
-        font-size: 26px;
+        font-size: 22px;
         font-weight: bold;
+        font-family: 'Arial', sans-serif;
         letter-spacing: 1px;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-        margin-bottom: 25px;
-    }
-    .chart-container {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        width: 60%; /* ✅ Slimmer & Compact */
+        margin: auto;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* ✅ Soft Shadow */
+        backdrop-filter: blur(10px); /* ✅ Modern Blur Effect */
+        border: 4px solid rgb(255, 221, 51); /* ✨ Stylish Yellow Border */
+        background-clip: padding-box; /* Ensures border color doesn't get overridden by background */
         transition: all 0.3s ease-in-out;
     }
-    .chart-container:hover {
-        transform: scale(1.02);
+
+    /* ✨ Hover Effect */
+    .navbar:hover {
+        background: linear-gradient(45deg, rgb(240, 110, 5), rgb(220, 100, 5)); /* 🔥 Slightly Darker on Hover */
+        transform: scale(1.03);
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.5);
+        border-color: rgb(255, 200, 0); /* 🎨 Slightly Darker Yellow on Hover */
     }
+
     </style>
-    <div class="navbar">📊 Age Distribution of Users</div>
+
+    <!-- 🔥 Stylish and Image-Based Navigation Bar -->
+    <div class="navbar"> 👴📊 Age Distribution Analysis 📈📊</div>
     """,
     unsafe_allow_html=True
 )
-import pandas as pd
-import streamlit as st
-import plotly.express as px
 
-# Sample data (Replace 'filtered_data' with your actual DataFrame)
-# filtered_data = pd.read_csv("your_data.csv")  # Ensure you have data loaded
-
-# Define Age Groups for Clear Segmentation
-age_bins = [10, 20, 30, 40, 50, 60, 70, 80, 100]
-age_labels = ['10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80+']
-
-# Ensure 'filtered_data' exists before applying operations
+# Age Distribution Bar Chart
 if 'age' in filtered_data.columns:
-    filtered_data['age_group'] = pd.cut(
-        filtered_data['age'], bins=age_bins, labels=age_labels, right=False
-    )
+    age_bins = [0, 10, 20, 30, 40, 50, 60, 100]  # Added 0-10 and 60+ groups
+    age_labels = ['0-10', '10-20', '20-30', '30-40', '40-50', '50-60', '60+']  # Updated labels
 
-    # Get counts and ensure correct order
+    filtered_data['age_group'] = pd.cut(filtered_data['age'], bins=age_bins, labels=age_labels, right=False)
+    
     age_count = filtered_data['age_group'].value_counts().reindex(age_labels, fill_value=0).reset_index()
     age_count.columns = ['Age Group', 'Count']
 
-    # 📊 Stunning Age Distribution Bar Chart
     fig_age_bar = px.bar(
         age_count, x='Age Group', y='Count', text='Count',
-        color='Age Group', category_orders={"Age Group": age_labels},  # ✅ Ensure correct order
-        color_discrete_sequence=px.colors.qualitative.Vivid  # Vibrant colors
+        color='Age Group', category_orders={"Age Group": age_labels},
+        color_discrete_sequence=px.colors.qualitative.Bold  # Vibrant colors
     )
 
     fig_age_bar.update_traces(
         textposition='outside',
-        marker=dict(line=dict(color='black', width=1))  # Enhanced contrast
+        marker=dict(line=dict(color='black', width=1.5))  # Stronger border for clarity
     )
 
-    # 🎨 Beautiful Background & Professional Styling
     fig_age_bar.update_layout(
-        title="📈 Age Group Distribution",
-        xaxis=dict(
-            title="👶 Age Group 🧓",
-            tickmode="array",
-            tickvals=list(range(len(age_labels))),  # Ensure labels align correctly
-            ticktext=age_labels,
-            tickfont=dict(size=16, color="white")
-        ),
-        yaxis=dict(
-            title="📊 Number of People",
-            tickfont=dict(size=16, color="white")
-        ),
-        font=dict(size=18, color="white"),
+        title="📊 Age Distribution Analysis",
+        xaxis=dict(title="👶 Age Group 🧓", tickfont=dict(size=14, color="white")),
+        yaxis=dict(title="📊 Number of Users", tickfont=dict(size=14, color="white")),
+        font=dict(size=16, color="white"),
         showlegend=False,
-        height=500,
-        paper_bgcolor="#1A2B4C",  # Attractive dark blue gradient background
-        plot_bgcolor="#1A2B4C",  # Same background for seamless look
+        height=400,
+        paper_bgcolor="#1A2B4C",
+        plot_bgcolor="#1A2B4C",
         margin=dict(t=10, b=10, l=10, r=10)
     )
 
-    # 🖼️ Elegant Chart Container with Matching Theme
-    st.markdown(
-        "<div class='chart-container' style='background: linear-gradient(135deg, #1A2B4C, #2C3E50); padding: 15px; border-radius: 15px;'>",
-        unsafe_allow_html=True
-    )
+    st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
     st.plotly_chart(fig_age_bar, use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-else:
-    st.error("Column 'age' not found in the dataset. Please check your input data.")
 
 
 
 
 
-# 🌟 Attractive Navigation Bar
+
+
+
+import streamlit as st
+
 st.markdown(
     """
     <style>
+    /* 🚀 Elegant and Shaded Navigation Bar with Image-Based Colors */
     .navbar {
-        background: linear-gradient(90deg, #ff416c, #ff4b2b);
-        padding: 16px;
-        border-radius: 15px;
+        background: linear-gradient(45deg, rgb(255, 129, 10), rgb(255, 128, 11)); /* 🎨 Image-Inspired Gradient */
+        padding: 12px 25px;
+        border-radius: 8px; /* ✅ Slightly Rounded */
         text-align: center;
         color: white;
-        font-size: 26px;
+        font-size: 22px;
         font-weight: bold;
+        font-family: 'Arial', sans-serif;
         letter-spacing: 1px;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-        margin-bottom: 25px;
-    }
-    .chart-container {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        width: 60%; /* ✅ Slimmer & Compact */
+        margin: auto;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* ✅ Soft Shadow */
+        backdrop-filter: blur(10px); /* ✅ Modern Blur Effect */
+        border: 4px solid rgb(255, 221, 51); /* ✨ Stylish Yellow Border */
+        background-clip: padding-box; /* Ensures border color doesn't get overridden by background */
         transition: all 0.3s ease-in-out;
     }
-    .chart-container:hover {
-        transform: scale(1.02);
+
+    /* ✨ Hover Effect */
+    .navbar:hover {
+        background: linear-gradient(45deg, rgb(240, 110, 5), rgb(220, 100, 5)); /* 🔥 Slightly Darker on Hover */
+        transform: scale(1.03);
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.5);
+        border-color: rgb(255, 200, 0); /* 🎨 Slightly Darker Yellow on Hover */
     }
+
     </style>
-    <div class="navbar">📊 Number Of Users Over Time</div>
+
+    <!-- 🔥 Stylish and Image-Based Navigation Bar -->
+    <div class="navbar">📅📈 Number of Users Over Time 👥⏳</div>
     """,
     unsafe_allow_html=True
 )
 
-import plotly.express as px
 
-import plotly.express as px
-
-import plotly.express as px
-
-# 📊 Persons Over Time
+# Number of Users Over Time
 time_series = filtered_data.groupby('time')['total_persons'].sum().reset_index()
-
-# 🎨 Define background color (Deep Navy Blue)
-bg_color = '#1A2B4C'
 
 fig_time = px.line(
     time_series, x="time", y="total_persons", markers=True,
-    color_discrete_sequence=["#FF4C4C"],  # 🔥 Bold Red Line
+    color_discrete_sequence=["#FF4C4C"],
     labels={"time": "⏳ Time", "total_persons": "👥 Users"}
 )
 
-# 🎨 Theme Styling
 fig_time.update_traces(
     line=dict(width=4),
     marker=dict(size=10, symbol="circle", color="#FF4C4C")
 )
 
 fig_time.update_layout(
-    xaxis=dict(
-        title="⏳ Time",
-        title_font=dict(size=18, color="#FFFFFF"),
-        tickfont=dict(size=14, color="#FFFFFF"),
-        showgrid=True, gridcolor="rgba(255, 255, 255, 0.3)"
-    ),
-    yaxis=dict(
-        title="👥 Users",
-        title_font=dict(size=18, color="#FFFFFF"),
-        tickfont=dict(size=14, color="#FFFFFF"),
-        showgrid=True, gridcolor="rgba(255, 255, 255, 0.3)"
-    ),
-    font=dict(size=16, color="#FFFFFF"),
-    template="plotly_white",
-    plot_bgcolor=bg_color,  # 📉 Chart Background
-    paper_bgcolor=bg_color,  # 🔥 Fully Match Background (Fix White Bar)
-    margin=dict(t=5, b=40, l=40, r=20)  # 🔥 Reduce Top Margin
-)
-
-# 🖼️ Stylish Chart Container
-st.markdown(
-    """
-    <style>
-    .chart-container {
-        background: rgba(255, 255, 255, 0.98);
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease-in-out;
-    }
-    .chart-container:hover {
-        transform: scale(1.03);
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
+    xaxis=dict(title="⏳ Time", tickfont=dict(size=14, color="white")),
+    yaxis=dict(title="👥 Users", tickfont=dict(size=14, color="white")),
+    font=dict(size=16, color="white"),
+    template="plotly_dark",
+    plot_bgcolor='rgba(26, 43, 76, 1)',
+    paper_bgcolor='rgba(26, 43, 76, 1)',
+    margin=dict(t=5, b=40, l=40, r=20)
 )
 
 st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
 st.plotly_chart(fig_time, use_container_width=True)
 st.markdown("</div>", unsafe_allow_html=True)
-# 🌟 Attractive Navigation Bar
+
+import streamlit as st
+
 st.markdown(
     """
     <style>
+    /* 🚀 Elegant and Shaded Navigation Bar with Image-Based Colors */
     .navbar {
-        background: linear-gradient(90deg, #ff416c, #ff4b2b);
-        padding: 16px;
-        border-radius: 15px;
+        background: linear-gradient(45deg, rgb(255, 129, 10), rgb(255, 128, 11)); /* 🎨 Image-Inspired Gradient */
+        padding: 12px 25px;
+        border-radius: 8px; /* ✅ Slightly Rounded */
         text-align: center;
         color: white;
-        font-size: 26px;
+        font-size: 22px;
         font-weight: bold;
+        font-family: 'Arial', sans-serif;
         letter-spacing: 1px;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-        margin-bottom: 25px;
-    }
-    .chart-container {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        width: 60%; /* ✅ Slimmer & Compact */
+        margin: auto;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* ✅ Soft Shadow */
+        backdrop-filter: blur(10px); /* ✅ Modern Blur Effect */
+        border: 4px solid rgb(255, 221, 51); /* ✨ Stylish Yellow Border */
+        background-clip: padding-box; /* Ensures border color doesn't get overridden by background */
         transition: all 0.3s ease-in-out;
     }
-    .chart-container:hover {
-        transform: scale(1.02);
+
+    /* ✨ Hover Effect */
+    .navbar:hover {
+        background: linear-gradient(45deg, rgb(240, 110, 5), rgb(220, 100, 5)); /* 🔥 Slightly Darker on Hover */
+        transform: scale(1.03);
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.5);
+        border-color: rgb(255, 200, 0); /* 🎨 Slightly Darker Yellow on Hover */
     }
+
     </style>
-    <div class="navbar">📊 Number Of Users Per Ad</div>
+
+    <!-- 🔥 Stylish and Image-Based Navigation Bar -->
+    <div class="navbar">📢📊 Number of Users Per Ad 👥🎯</div>
     """,
     unsafe_allow_html=True
 )
 
 
-import pandas as pd
-import streamlit as st
-import plotly.express as px
-
-# 📊 Total Persons Per Ad (Stylish & Modern)
+# Number of Users Per Ad
 persons_per_ad = filtered_data.groupby('ad_id')['total_persons'].sum().reset_index()
 
-# 🌟 Create a Bar Chart with Enhanced Styling
 fig_persons = px.bar(
     persons_per_ad, x="ad_id", y="total_persons", 
-    color="total_persons", color_continuous_scale="Viridis",  # Attractive Color Gradient for Better Appeal
+    color="total_persons", color_continuous_scale="Viridis",
     labels={"ad_id": "Ad ID", "total_persons": "Users"}
 )
 
-# 🎨 Enhance Styling for Visual Appeal
 fig_persons.update_traces(
-    marker=dict(line=dict(color="black", width=2)),  # Sleek Black Border for Better Contrast
-    hoverinfo="x+y",  # Hover Information for Interaction
-    opacity=0.9  # Slight Transparency for a Modern Look
+    marker=dict(line=dict(color="black", width=2)),
+    hoverinfo="x+y",
+    opacity=0.9
 )
 
-# 🌟 Perfect Background & Axis Styling
 fig_persons.update_layout(
-    xaxis=dict(
-        title="📢 Ad ID",  # Title with Icons for Context
-        title_font=dict(size=18, color="#FFFFFF", family="Arial, sans-serif"),
-        tickfont=dict(size=14, color="#FFFFFF"),
-        showgrid=False,  # Clean Grid for Better Focus
-        zeroline=False
-    ),
-    yaxis=dict(
-        title="👥 Users",  # Title with Icons to Enhance Readability
-        title_font=dict(size=18, color="#FFFFFF", family="Arial, sans-serif"),
-        tickfont=dict(size=14, color="#FFFFFF"),
-        showgrid=True, gridcolor="rgba(255, 255, 255, 0.2)",  # Subtle Gridlines for Clean Look
-        zeroline=False
-    ),
-    font=dict(size=16, color="#FFFFFF", family="Arial, sans-serif"),
-    template="plotly_dark",  # Dark Background Template for Modern Design
-    plot_bgcolor='rgba(26, 43, 76, 1)',  # Dark Blue Background for a Professional Look
-    paper_bgcolor='rgba(26, 43, 76, 1)',  # Dark Blue Paper Background
-    margin=dict(t=20, b=40, l=40, r=20),  # Adjusted Margins for Better Spacing
-    hovermode="closest"  # Ensure the hover interaction works smoothly
+    xaxis=dict(title="📢 Ad ID", tickfont=dict(size=14, color="white")),
+    yaxis=dict(title="👥 Users", tickfont=dict(size=14, color="white")),
+    font=dict(size=16, color="white"),
+    template="plotly_dark",
+    plot_bgcolor='rgba(26, 43, 76, 1)',
+    paper_bgcolor='rgba(26, 43, 76, 1)',
+    margin=dict(t=20, b=40, l=40, r=20)
 )
 
-# 🖼️ Stylish Chart Container with Hover Effect
-st.markdown(
-    """
-    <style>
-    .chart-container {
-        background: linear-gradient(135deg, #1A2B4C, #2C3E50);
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease-in-out;
-        text-align: center;
-    }
-    .chart-container:hover {
-        transform: scale(1.05);
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Display the chart in a stylish container
 st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
 st.plotly_chart(fig_persons, use_container_width=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
-# 🌟 Attractive Navigation Bar
+
+import streamlit as st
+
 st.markdown(
     """
     <style>
+    /* 🚀 Elegant and Shaded Navigation Bar with Image-Based Colors */
     .navbar {
-        background: linear-gradient(90deg, #ff416c, #ff4b2b);
-        padding: 16px;
-        border-radius: 15px;
+        background: linear-gradient(45deg, rgb(255, 129, 10), rgb(255, 128, 11)); /* 🎨 Image-Inspired Gradient */
+        padding: 12px 25px;
+        border-radius: 8px; /* ✅ Slightly Rounded */
         text-align: center;
         color: white;
-        font-size: 26px;
+        font-size: 22px;
         font-weight: bold;
+        font-family: 'Arial', sans-serif;
         letter-spacing: 1px;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-        margin-bottom: 25px;
-    }
-    .chart-container {
-        background: linear-gradient(135deg, #1A2B4C, #2C3E50);
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        width: 60%; /* ✅ Slimmer & Compact */
+        margin: auto;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* ✅ Soft Shadow */
+        backdrop-filter: blur(10px); /* ✅ Modern Blur Effect */
+        border: 4px solid rgb(255, 221, 51); /* ✨ Stylish Yellow Border */
+        background-clip: padding-box; /* Ensures border color doesn't get overridden by background */
         transition: all 0.3s ease-in-out;
     }
-    .chart-container:hover {
-        transform: scale(1.02);
+
+    /* ✨ Hover Effect */
+    .navbar:hover {
+        background: linear-gradient(45deg, rgb(240, 110, 5), rgb(220, 100, 5)); /* 🔥 Slightly Darker on Hover */
+        transform: scale(1.03);
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.5);
+        border-color: rgb(255, 200, 0); /* 🎨 Slightly Darker Yellow on Hover */
     }
+
     </style>
-    <div class="navbar">📊 Number Of Users By Hour And Day</div>
+
+    <!-- 🔥 Stylish and Image-Based Navigation Bar -->
+    <div class="navbar">⏰📅 Number of Users by Hour and Day 👥📊</div>
     """,
     unsafe_allow_html=True
 )
-import pandas as pd
-import streamlit as st
-import plotly.express as px
-
-# 📊 Group Data for Clarity
+# Number of Users By Hour and Day
 bar_data = filtered_data.groupby(['hour', 'day']).size().reset_index(name='Count')
 
-# 🌈 Attractive & Intuitive Stacked Area Chart
 fig_area = px.area(
     bar_data, x="hour", y="Count", color="day",
     labels={"hour": "🕒 Hour of the Day", "Count": "👥 Number of Users", "day": "📅 Day"},
     line_group="day",
-    color_discrete_sequence=["#FFD700", "#FF4500", "#32CD32", "#1E90FF", "#FF69B4", "#8A2BE2"],  # Bright & appealing colors
+    color_discrete_sequence=["#FFD700", "#FF4500", "#32CD32", "#1E90FF", "#FF69B4", "#8A2BE2"],
 )
 
-# ✨ Enhanced Chart Design
 fig_area.update_layout(
-    xaxis=dict(
-        title="🕒 Hour of the Day",
-        title_font=dict(size=20, color="#FFFFFF", family="Arial, sans-serif"),
-        tickfont=dict(size=16, color="#FFFFFF"),
-        showgrid=False  
-    ),
-    yaxis=dict(
-        title="👥 Number of Users",
-        title_font=dict(size=20, color="#FFFFFF", family="Arial, sans-serif"),
-        tickfont=dict(size=16, color="#FFFFFF"),
-        showgrid=True, gridcolor="rgba(255, 255, 255, 0.2)",
-    ),
-    font=dict(size=18, color="#FFFFFF", family="Arial, sans-serif"),
-    template="plotly_dark",  
-    plot_bgcolor='rgba(26, 43, 76, 1)',  
-    paper_bgcolor='rgba(26, 43, 76, 1)',  
-    margin=dict(t=20, b=40, l=40, r=20),  
-    legend=dict(title="📅 Day", font=dict(size=16, color="#FFFFFF"))  
+    xaxis=dict(title="🕒 Hour of the Day", tickfont=dict(size=14, color="white")),
+    yaxis=dict(title="👥 Number of Users", tickfont=dict(size=14, color="white")),
+    font=dict(size=16, color="white"),
+    template="plotly_dark",
+    plot_bgcolor='rgba(26, 43, 76, 1)',
+    paper_bgcolor='rgba(26, 43, 76, 1)',
+    margin=dict(t=20, b=40, l=40, r=20),
+    legend=dict(title="📅 Day", font=dict(size=14, color="white"))
 )
 
-# 🖼️ Stylish Chart Container
-st.markdown(
-    """
-    <style>
-    .chart-container {
-        background: linear-gradient(135deg, #1A2B4C, #2C3E50);
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
-        transition: all 0.3s ease-in-out;
-    }
-    .chart-container:hover {
-        transform: scale(1.03);
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Display the Stacked Area Chart
 st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
 st.plotly_chart(fig_area, use_container_width=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
-
-import pandas as pd
 import streamlit as st
 
-# 📋 --- STYLISH DATA SUMMARY TABLE ---
-summary_data = filtered_data.copy()
-summary_data['date'] = summary_data['time'].dt.date
-summary_data['time_only'] = summary_data['time'].dt.time
-summary_data = summary_data[['date', 'time_only', 'ad_id', 'total_persons', 'gender', 'age']]
-summary_data.columns = ['📅 Date', '⏰ Time', '📢 Ad ID', '👥 Total Persons', '⚧ Gender', '🎂 Age']
-
-# 📜 Beautiful Table Styling
 st.markdown(
     """
     <style>
-    /* Table Container */
-    .summary-container {
-        background: linear-gradient(135deg, #1A2B4C, #2C3E50);
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.25);
-        transition: all 0.3s ease-in-out;
-        border: 2px solid #FFD700;
-    }
-    .summary-container:hover {
-        transform: scale(1.02);
-    }
-
-    /* Table */
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-        border-radius: 10px;
-        overflow: hidden;
-        background: white;
-        color: black;
-        font-size: 16px;
-        font-family: 'Arial', sans-serif;
-        text-align: center;
-    }
-    
-    /* Header Styling */
-    thead {
-        background: linear-gradient(90deg, #FFD700, #FFA500);
-        color: black;
-        font-weight: bold;
-        font-size: 18px;
-        text-transform: uppercase;
-    }
-
-    /* Alternate Row Colors */
-    tbody tr:nth-child(odd) {
-        background-color: #F8F9FA;
-    }
-
-    tbody tr:nth-child(even) {
-        background-color: #E9ECEF;
-    }
-
-    /* Hover Effect */
-    tbody tr:hover {
-        background-color: #FFD700;
-        color: black;
-        font-weight: bold;
-    }
-
-    /* Borders */
-    th, td {
-        padding: 12px;
-        border-bottom: 2px solid #ddd;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# 🌟 Elegant Navigation Bar
-st.markdown(
-    """
-    <style>
+    /* 🚀 Elegant and Shaded Navigation Bar with Image-Based Colors */
     .navbar {
-        background: linear-gradient(90deg, #ff5733, #ff8d1a);
-        padding: 18px;
-        border-radius: 15px;
+        background: linear-gradient(45deg, rgb(255, 129, 10), rgb(255, 128, 11)); /* 🎨 Image-Inspired Gradient */
+        padding: 12px 25px;
+        border-radius: 8px; /* ✅ Slightly Rounded */
         text-align: center;
         color: white;
-        font-size: 26px;
+        font-size: 22px;
         font-weight: bold;
+        font-family: 'Arial', sans-serif;
         letter-spacing: 1px;
-        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.3);
-        margin-bottom: 25px;
+        width: 60%; /* ✅ Slimmer & Compact */
+        margin: auto;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* ✅ Soft Shadow */
+        backdrop-filter: blur(10px); /* ✅ Modern Blur Effect */
+        border: 4px solid rgb(255, 221, 51); /* ✨ Stylish Yellow Border */
+        background-clip: padding-box; /* Ensures border color doesn't get overridden by background */
+        transition: all 0.3s ease-in-out;
     }
+
+    /* ✨ Hover Effect */
+    .navbar:hover {
+        background: linear-gradient(45deg, rgb(240, 110, 5), rgb(220, 100, 5)); /* 🔥 Slightly Darker on Hover */
+        transform: scale(1.03);
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.5);
+        border-color: rgb(255, 200, 0); /* 🎨 Slightly Darker Yellow on Hover */
+    }
+
     </style>
-    <div class="navbar">📊 Beautiful Data Table</div>
+
+    <!-- 🔥 Stylish and Image-Based Navigation Bar -->
+    <div class="navbar">📊📋 Data Summary 📈✅</div>
     """,
     unsafe_allow_html=True
 )
+import streamlit as st
+import pandas as pd
 
-# Display the Data Table
-st.markdown("<div class='summary-container'>", unsafe_allow_html=True)
-st.dataframe(
-    summary_data.tail(10),  # Show last 10 records
-    use_container_width=True,  
-    height=320
-)
-st.markdown("</div>", unsafe_allow_html=True)
+# Ensure 'filtered_data' exists before using it
+if 'filtered_data' in locals():
+    # Create a copy to avoid modifying original data
+    summary_data = filtered_data.copy()
+
+    # Ensure 'time' column is in datetime format
+    if 'time' in summary_data.columns:
+        summary_data['date'] = summary_data['time'].dt.date
+        summary_data['time_only'] = summary_data['time'].dt.time
+    else:
+        summary_data['date'] = None
+        summary_data['time_only'] = None
+
+    # Select and rename columns for a clean summary table
+    summary_data = summary_data[['date', 'time_only', 'ad_id', 'total_persons', 'gender', 'age']]
+    summary_data.columns = ['📅 Date', '⏰ Time', '📢 Ad ID', '👥 Total Persons', '⚧ Gender', '🎂 Age']
+    # 📋 Display the Data Table
+    st.markdown("<div class='summary-container'>", unsafe_allow_html=True)
+    st.dataframe(
+        summary_data.tail(10),  # Show last 10 records
+        use_container_width=True
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
+else:
+    st.error("❌ Error: 'filtered_data' is not available. Please check your dataset.")
