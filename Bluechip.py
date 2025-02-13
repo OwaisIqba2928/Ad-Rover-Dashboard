@@ -14,7 +14,7 @@ data['day'] = data['time'].dt.day_name()
 data['month'] = data['time'].dt.month_name()
 
 # Streamlit Page Configuration
-st.set_page_config(page_title="📊 Ad Rover Analytics Dashboard", page_icon="📊", layout="wide")
+st.set_page_config(page_title="📊 Visitor Analytics Dashboard", page_icon="📊", layout="wide")
 
 # Custom CSS for Enhanced Styling and Responsiveness
 st.markdown(
@@ -169,7 +169,7 @@ st.markdown(
 )
 
 # Dashboard Title
-st.markdown("<div class='title-bar'>📊 Ad Rover Analytics Dashboard</div>", unsafe_allow_html=True)
+st.markdown("<div class='title-bar'>📊 Visitor Analytics Dashboard</div>", unsafe_allow_html=True)
 
 # Sidebar Filters
 with st.sidebar:
@@ -205,7 +205,7 @@ average_age = round(filtered_data['age'].mean()) if not filtered_data.empty else
 st.markdown(
     f"""
     <div class="kpi-container">
-        <div class="kpi-card"><span>👥 Total Users <br> {total_users}</span></div>
+        <div class="kpi-card"><span>👥 Total Visitors <br> {total_users}</span></div>
         <div class="kpi-card"><span>📢 Unique Ads <br> {unique_ads}</span></div>
         <div class="kpi-card"><span>📌 Most Gender <br> {most_common_gender}</span></div>
         <div class="kpi-card"><span>📊 Average Age <br> {average_age}</span></div>
@@ -224,7 +224,7 @@ gender_count['Gender'] = gender_count['Gender'].replace("?", "Other")
 
 # Create labels with icons
 gender_count['Label'] = gender_count.apply(
-    lambda row: f"{gender_icons.get(row['Gender'], '⚧')} {row['Gender']} ({row['Count']})", axis=1
+    lambda row: f"{gender_icons.get(row['Gender'], '⚧')} {row['Gender']} Visitors ({row['Count']})", axis=1
 )
 
 # Professional and Attractive Color Palette
@@ -246,7 +246,7 @@ fig_gender_pie.update_traces(
 
 fig_gender_pie.update_layout(
     title={
-        'text': "Gender Distribution Overview",
+        'text': "Gender Distribution Of Visitors",
         'y':0.95,
         'x':0.5,
         'xanchor': 'center',
@@ -292,15 +292,15 @@ if 'age' in filtered_data.columns:
 
     fig_age_bar.update_layout(
         title={
-            'text': "Age Distribution Overview",
+            'text': "Age Distribution of Visitors",
             'y':0.95,
             'x':0.5,
             'xanchor': 'center',
             'yanchor': 'top',
             'font': {'size': 20}
         },
-        xaxis=dict(title="Age Group", tickfont=dict(size=14, color="#333")),
-        yaxis=dict(title="Number of Users", tickfont=dict(size=14, color="#333")),
+        xaxis=dict(title="🎂 Age Group", tickfont=dict(size=14, color="#333")),
+        yaxis=dict(title="👥 Total Number of Visitors", tickfont=dict(size=14, color="#333")),
         font=dict(size=16, color="#333"),
         showlegend=False,
         height=400,
@@ -309,17 +309,23 @@ if 'age' in filtered_data.columns:
         margin=dict(t=50, b=10, l=10, r=10)
     )
 
+    # Adjust the y-axis to ensure labels fit
+    fig_age_bar.update_layout(yaxis=dict(range=[0, max(age_count['Count']) * 1.2]))
+
     st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
     st.plotly_chart(fig_age_bar, use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-# Number of Users Over Time
+
+
+
+# Number of Visitors Over Time
 time_series = filtered_data.groupby('time')['total_persons'].sum().reset_index()
 
 fig_time = px.line(
     time_series, x="time", y="total_persons", markers=True,
     color_discrete_sequence=["#007bff"],
-    labels={"time": "⏳ Time", "total_persons": "👥 Users"}
+    labels={"time": "⏳ Time", "total_persons": "👥 Total Number of Visitors"}
 )
 
 fig_time.update_traces(
@@ -329,7 +335,7 @@ fig_time.update_traces(
 
 fig_time.update_layout(
     title={
-        'text': "Number of Users Over Time",
+        'text': "Number of Visitors Over Time",
         'y':0.95,
         'x':0.5,
         'xanchor': 'center',
@@ -337,7 +343,7 @@ fig_time.update_layout(
         'font': {'size': 20}
     },
     xaxis=dict(title="⏳ Time", tickfont=dict(size=14, color="#333")),
-    yaxis=dict(title="👥 Users", tickfont=dict(size=14, color="#333")),
+    yaxis=dict(title="👥 Total Number of Visitors", tickfont=dict(size=14, color="#333")),
     font=dict(size=16, color="#333"),
     template="plotly_white",
     plot_bgcolor='#ffffff',
@@ -349,7 +355,8 @@ st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
 st.plotly_chart(fig_time, use_container_width=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
-# Number of Users Per Ad
+
+# Number of Visitors Per Ad
 persons_per_ad = filtered_data.groupby('ad_id')['total_persons'].sum().reset_index()
 
 # Use the same colors as the pie chart (lightened versions)
@@ -358,7 +365,7 @@ color_palette = ['#007bff', '#00c6ff']
 fig_persons = px.bar(
     persons_per_ad, x="ad_id", y="total_persons", 
     color="total_persons", color_discrete_sequence=color_palette,
-    labels={"ad_id": "Ad ID", "total_persons": "Users"}
+    labels={"ad_id": "📢 Ad ID", "total_persons": "👥 Total Number of Visitors"}
 )
 
 fig_persons.update_traces(
@@ -369,7 +376,7 @@ fig_persons.update_traces(
 
 fig_persons.update_layout(
     title={
-        'text': "Number of Users Per Ad",
+        'text': "Number of Visitors Per Ad",
         'y':0.95,
         'x':0.5,
         'xanchor': 'center',
@@ -377,7 +384,7 @@ fig_persons.update_layout(
         'font': {'size': 20}
     },
     xaxis=dict(title="📢 Ad ID", tickfont=dict(size=14, color="#333")),
-    yaxis=dict(title="👥 Users", tickfont=dict(size=14, color="#333")),
+    yaxis=dict(title="👥 Total Number of Visitors", tickfont=dict(size=14, color="#333")),
     font=dict(size=16, color="#333"),
     template="plotly_white",
     plot_bgcolor='#ffffff',
@@ -389,27 +396,28 @@ st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
 st.plotly_chart(fig_persons, use_container_width=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
-# Number of Users By Hour and Day
+
+# Number of Visitors by Hour and Day
 bar_data = filtered_data.groupby(['hour', 'day']).size().reset_index(name='Count')
 
 fig_area = px.area(
     bar_data, x="hour", y="Count", color="day",
-    labels={"hour": "🕒 Hour of the Day", "Count": "👥 Number of Users", "day": "📅 Day"},
+    labels={"hour": "🕒 Hour of the Day", "Count": "👥 Total Number of Visitors", "day": "📅 Day"},
     line_group="day",
     color_discrete_sequence=["#007bff", "#00c6ff", "#ff6f61", "#ffd700", "#32cd32", "#8a2be2"],
 )
 
 fig_area.update_layout(
     title={
-        'text': "Number of Users By Hour and Day",
+        'text': "Number of Visitors by Hour and Day",
         'y':0.95,
         'x':0.5,
         'xanchor': 'center',
         'yanchor': 'top',
-        'font': {'size': 20, 'color': 'black'}  # Updated title style and color
+        'font': {'size': 20, 'color': 'black'}  # Title in black color
     },
     xaxis=dict(title="🕒 Hour of the Day", tickfont=dict(size=14, color="#333")),
-    yaxis=dict(title="👥 Number of Users", tickfont=dict(size=14, color="#333")),
+    yaxis=dict(title="👥 Total Number of Visitors", tickfont=dict(size=14, color="#333")),
     font=dict(size=16, color="#333"),
     template="plotly_white",
     plot_bgcolor='#ffffff',
@@ -422,13 +430,14 @@ st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
 st.plotly_chart(fig_area, use_container_width=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
+
 # Data Summary Table
 if 'filtered_data' in locals():
     summary_data = filtered_data.copy()
     summary_data['date'] = summary_data['time'].dt.date
     summary_data['time_only'] = summary_data['time'].dt.time
     summary_data = summary_data[['date', 'time_only', 'ad_id', 'total_persons', 'gender', 'age']]
-    summary_data.columns = ['📅 Date', '⏰ Time', '📢 Ad ID', '👥 Total Persons', '⚧ Gender', '🎂 Age']
+    summary_data.columns = ['📅 Date', '⏰ Time', '📢 Ad ID', '👥 Total Visitors', '⚧ Gender', '🎂 Age']
 
     st.markdown("<h2 style='text-align: center; color: black;'>Data Summary Table</h2>", unsafe_allow_html=True)
     st.markdown("<div class='summary-container' style='border: 2px solid #007bff; padding: 10px; background-color: #f0f8ff;'>", unsafe_allow_html=True)
