@@ -4,7 +4,7 @@ import plotly.express as px
 from datetime import datetime, timedelta
 
 # Load Data
-file_path = r"cleaned_data.csv"
+file_path = r"C:\Users\Asus\Music\CodeWithEhtisham\AddRover-pipeline\streamlit-ad-dashboard\cleaned_data.csv"
 data = pd.read_csv(file_path)
 
 # Data Preparation
@@ -262,9 +262,35 @@ fig_gender_pie.update_layout(
     legend=dict(title="🧑‍🤝‍🧑 Gender", font=dict(size=14, color="#333"))
 )
 
+# Enhanced CSS for mobile responsiveness
+st.markdown("""
+    <style>
+    .chart-container {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+    @media (max-width: 600px) {
+        .chart-container {
+            height: auto !important;
+            font-size: 14px !important;
+        }
+        .chart-container .plotly-graph-div .main-svg {
+            width: 100% !important;
+            height: auto !important;
+        }
+        .chart-container .plotly .main-svg g {
+            transform: scale(0.9) !important;
+        }
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
 st.plotly_chart(fig_gender_pie, use_container_width=True)
 st.markdown("</div>", unsafe_allow_html=True)
+
+
 
 # Age Distribution Bar Chart
 if 'age' in filtered_data.columns:
@@ -391,6 +417,30 @@ fig_persons.update_layout(
     paper_bgcolor='#ffffff',
     margin=dict(t=50, b=40, l=40, r=20)
 )
+
+# Enhanced CSS for mobile responsiveness
+st.markdown("""
+    <style>
+    .chart-container {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+    @media (max-width: 600px) {
+        .chart-container {
+            height: auto !important;
+            font-size: 14px !important;
+        }
+        .chart-container .plotly-graph-div .main-svg {
+            width: 100% !important;
+            height: auto !important;
+        }
+        .chart-container .plotly .main-svg g {
+            transform: scale(0.9) !important;
+        }
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
 st.plotly_chart(fig_persons, use_container_width=True)
